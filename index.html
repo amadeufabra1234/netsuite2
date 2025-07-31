@@ -108,6 +108,7 @@
       list-style-type: disc;
       color: #333;
       font-weight: 500;
+      margin: 0;
     }
     ul li {
       margin-bottom: 0.75rem;
@@ -171,8 +172,7 @@
     #languageSwitcher button.active, #languageSwitcher button:hover {
       background: #0097a7;
     }
-
-    /* New styles for Why SuiteBridge with image and reviews side by side */
+    /* Why SuiteBridge with image and reviews side by side */
     .why-container {
       display: flex;
       flex-wrap: wrap;
@@ -212,7 +212,6 @@
       font-weight: 700;
       color: #00bcd4;
     }
-
     /* Responsive for Why SuiteBridge */
     @media (max-width: 768px) {
       .why-container {
@@ -221,6 +220,40 @@
       }
       .why-logo, .why-reviews {
         max-width: 100%;
+      }
+    }
+
+    /* About Me section with image left and bullets right */
+    .about-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .about-photo {
+      flex: 0 0 180px;
+      max-width: 180px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .about-photo img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+    }
+    .about-bullets {
+      flex: 1 1 300px;
+      min-width: 250px;
+    }
+    /* Responsive About Me */
+    @media (max-width: 600px) {
+      .about-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .about-bullets {
+        min-width: 100%;
       }
     }
   </style>
@@ -288,9 +321,12 @@
   <section id="about">
     <div class="section-title lang-en">About Me</div>
     <div class="section-title lang-es" style="display:none;">Sobre Mí</div>
-    <div class="grid">
-      <div class="card">
-        <ul class="lang-en">
+    <div class="about-container card">
+      <div class="about-photo">
+        <img src="itsme.png" alt="Amadeu Fabra Morante" />
+      </div>
+      <div class="about-bullets lang-en">
+        <ul>
           <li>NetSuite certified advisor with 6+ years of ERP experience</li>
           <li>Post go-live specialist delivering stability and efficiency</li>
           <li>Expert in process automation and reporting at Wallbox & Qualifyze</li>
@@ -298,7 +334,9 @@
           <li>Finance–IT bridge with business-focused problem solving</li>
           <li>Toolstack expertise: Salesforce, Workato, Yooz, Hubspot, Avalara, Hightouch, Airbase</li>
         </ul>
-        <ul class="lang-es" style="display:none;">
+      </div>
+      <div class="about-bullets lang-es" style="display:none;">
+        <ul>
           <li>Asesor certificado en NetSuite con más de 6 años de experiencia en ERP</li>
           <li>Especialista post go-live brindando estabilidad y eficiencia</li>
           <li>Experto en automatización de procesos e informes en Wallbox y Qualifyze</li>
@@ -306,15 +344,15 @@
           <li>Puente entre Finanzas y TI con enfoque en solución de problemas</li>
           <li>Experiencia con herramientas: Salesforce, Workato, Yooz, Hubspot, Avalara, Hightouch, Airbase</li>
         </ul>
-        <div style="text-align: center; margin-top: 3.5rem;">
-          <h2 class="lang-en" style="margin-top: 0;">Ready to simplify NetSuite?</h2>
-          <h2 class="lang-es" style="margin-top: 0; display:none;">¿Listo para simplificar NetSuite?</h2>
-          <p class="lang-en">Let’s bring clarity, automation, and financial insight to your platform.</p>
-          <p class="lang-es" style="display:none;">Llevemos claridad, automatización y conocimiento financiero a tu plataforma.</p>
-          <a href="#contact" onclick="showTab('contact')" class="lang-en" style="display: inline-block; background: #00bcd4; color: white; padding: 0.75rem 1.5rem; border-radius: 30px; font-weight: 600; text-decoration: none; margin-top: 1rem;">Get in Touch</a>
-          <a href="#contact" onclick="showTab('contact')" class="lang-es" style="display:none; background: #00bcd4; color: white; padding: 0.75rem 1.5rem; border-radius: 30px; font-weight: 600; text-decoration: none; margin-top: 1rem; display: inline-block;">Contáctame</a>
-        </div>
       </div>
+    </div>
+    <div style="text-align: center; margin-top: 3.5rem;">
+      <h2 class="lang-en" style="margin-top: 0;">Ready to simplify NetSuite?</h2>
+      <h2 class="lang-es" style="margin-top: 0; display:none;">¿Listo para simplificar NetSuite?</h2>
+      <p class="lang-en">Let’s bring clarity, automation, and financial insight to your platform.</p>
+      <p class="lang-es" style="display:none;">Llevemos claridad, automatización y conocimiento financiero a tu plataforma.</p>
+      <a href="#contact" onclick="showTab('contact')" class="lang-en" style="display: inline-block; background: #00bcd4; color: white; padding: 0.75rem 1.5rem; border-radius: 30px; font-weight: 600; text-decoration: none; margin-top: 1rem;">Get in Touch</a>
+      <a href="#contact" onclick="showTab('contact')" class="lang-es" style="display:none; background: #00bcd4; color: white; padding: 0.75rem 1.5rem; border-radius: 30px; font-weight: 600; text-decoration: none; margin-top: 1rem; display: inline-block;">Contáctame</a>
     </div>
   </section>
 
