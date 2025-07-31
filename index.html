@@ -54,7 +54,7 @@
       background: #111;
       padding: 1rem;
       position: sticky;
-      top: 0;
+      top: 40px;
       z-index: 1000;
     }
     nav a {
@@ -89,6 +89,7 @@
     }
     .grid {
       display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
     }
     .card {
@@ -107,7 +108,6 @@
       list-style-type: disc;
       color: #333;
       font-weight: 500;
-      margin: 0;
     }
     ul li {
       margin-bottom: 0.75rem;
@@ -151,28 +151,75 @@
       color: #00bcd4;
       text-decoration: none;
     }
-    /* About Me flex container */
-    .about-content {
+    #languageSwitcher {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 2000;
+    }
+    #languageSwitcher button {
+      background: #00bcd4;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #languageSwitcher button.active, #languageSwitcher button:hover {
+      background: #0097a7;
+    }
+
+    /* New styles for Why SuiteBridge with image and reviews side by side */
+    .why-container {
       display: flex;
-      align-items: center;
-      gap: 2rem;
       flex-wrap: wrap;
+      gap: 2rem;
+      align-items: flex-start;
     }
-    .about-content img {
-      max-width: 180px;
-      width: 100%;
+    .why-logo {
+      flex: 1 1 250px;
+      max-width: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .why-logo img {
+      max-width: 100%;
+      height: auto;
       border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .about-content ul {
-      flex: 1;
+    .why-reviews {
+      flex: 2 1 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
-    /* Responsive */
-    @media (max-width: 600px) {
-      .about-content {
+    .why-review-card {
+      background: #fdfdfd;
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+      font-weight: 500;
+      color: #333;
+    }
+    .why-review-card strong {
+      display: block;
+      margin-top: 0.8rem;
+      font-weight: 700;
+      color: #00bcd4;
+    }
+
+    /* Responsive for Why SuiteBridge */
+    @media (max-width: 768px) {
+      .why-container {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
       }
-      .about-content img {
+      .why-logo, .why-reviews {
         max-width: 100%;
       }
     }
@@ -183,104 +230,202 @@
       sections.forEach(sec => sec.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
     }
-    window.onload = () => showTab('about');
+    function setLanguage(lang) {
+      document.documentElement.lang = lang;
+      if(lang === 'en'){
+        document.querySelectorAll('.lang-en').forEach(el => el.style.display = '');
+        document.querySelectorAll('.lang-es').forEach(el => el.style.display = 'none');
+        document.getElementById('btn-en').classList.add('active');
+        document.getElementById('btn-es').classList.remove('active');
+      } else {
+        document.querySelectorAll('.lang-en').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.lang-es').forEach(el => el.style.display = '');
+        document.getElementById('btn-es').classList.add('active');
+        document.getElementById('btn-en').classList.remove('active');
+      }
+    }
+    window.onload = () => {
+      showTab('about');
+      setLanguage('en');
+    };
   </script>
 </head>
 <body>
+  <div id="languageSwitcher">
+    <button id="btn-en" onclick="setLanguage('en')">English</button>
+    <button id="btn-es" onclick="setLanguage('es')">Español</button>
+  </div>
+
   <header>
     <svg viewBox="0 0 1440 320"><path fill="#00bcd4" fill-opacity="1" d="M0,32L60,69.3C120,107,240,181,360,176C480,171,600,85,720,64C840,43,960,85,1080,117.3C1200,149,1320,171,1380,181.3L1440,192L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg>
     <div>
-      <div class="logo">SuiteBridge</div>
-      <h1>Amadeu Fabra Morante</h1>
-      <p>NetSuite Advisor | Bridging Finance & ERP with Scalable Strategy</p>
+      <div class="logo lang-en">SuiteBridge</div>
+      <div class="logo lang-es" style="display:none;">SuiteBridge</div>
+      <h1 class="lang-en">Amadeu Fabra Morante</h1>
+      <h1 class="lang-es" style="display:none;">Amadeu Fabra Morante</h1>
+      <p class="lang-en">NetSuite Advisor | Bridging Finance & ERP with Scalable Strategy</p>
+      <p class="lang-es" style="display:none;">Asesor NetSuite | Puente entre Finanzas y ERP con Estrategia Escalable</p>
     </div>
   </header>
 
   <nav>
-    <a onclick="showTab('about')">About Me</a>
-    <a onclick="showTab('services')">What I Offer</a>
-    <a onclick="showTab('why')">Why SuiteBridge</a>
-    <a onclick="showTab('experience')">Experience</a>
-    <a onclick="showTab('proof')">Expertise</a>
-    <a onclick="showTab('contact')">Contact</a>
+    <a onclick="showTab('about')" class="lang-en">About Me</a>
+    <a onclick="showTab('services')" class="lang-en">What I Offer</a>
+    <a onclick="showTab('why')" class="lang-en">Why SuiteBridge</a>
+    <a onclick="showTab('experience')" class="lang-en">Experience</a>
+    <a onclick="showTab('proof')" class="lang-en">Expertise</a>
+    <a onclick="showTab('contact')" class="lang-en">Contact</a>
+
+    <a onclick="showTab('about')" class="lang-es" style="display:none;">Sobre Mí</a>
+    <a onclick="showTab('services')" class="lang-es" style="display:none;">Qué Ofrezco</a>
+    <a onclick="showTab('why')" class="lang-es" style="display:none;">Por qué SuiteBridge</a>
+    <a onclick="showTab('experience')" class="lang-es" style="display:none;">Experiencia</a>
+    <a onclick="showTab('proof')" class="lang-es" style="display:none;">Experticia</a>
+    <a onclick="showTab('contact')" class="lang-es" style="display:none;">Contacto</a>
   </nav>
 
+  <!-- About Me -->
   <section id="about">
-    <div class="section-title">About Me</div>
-    <div class="card about-content">
-      <img src="itsme.png" alt="Amadeu Fabra Morante" />
-      <ul>
-        <li>NetSuite certified advisor with 6+ years of ERP experience</li>
-        <li>Post go-live specialist delivering stability and efficiency</li>
-        <li>Expert in process automation and reporting at Wallbox & Qualifyze</li>
-        <li>Customizations & saved searches tailored for scalability</li>
-        <li>Finance–IT bridge with business-focused problem solving</li>
-        <li>Toolstack expertise: Salesforce, Workato, Yooz, Hubspot, Avalara, Hightouch, Airbase</li>
-      </ul>
-    </div>
-    <div style="text-align: center; margin-top: 3.5rem;">
-      <h2 style="margin-top: 0;">Ready to simplify NetSuite?</h2>
-      <p>Let’s bring clarity, automation, and financial insight to your platform.</p>
-      <a href="#contact" onclick="showTab('contact')" style="display: inline-block; background: #00bcd4; color: white; padding: 0.75rem 1.5rem; border-radius: 30px; font-weight: 600; text-decoration: none; margin-top: 1rem;">Get in Touch</a>
+    <div class="section-title lang-en">About Me</div>
+    <div class="section-title lang-es" style="display:none;">Sobre Mí</div>
+    <div class="grid">
+      <div class="card">
+        <ul class="lang-en">
+          <li>NetSuite certified advisor with 6+ years of ERP experience</li>
+          <li>Post go-live specialist delivering stability and efficiency</li>
+          <li>Expert in process automation and reporting at Wallbox & Qualifyze</li>
+          <li>Customizations & saved searches tailored for scalability</li>
+          <li>Finance–IT bridge with business-focused problem solving</li>
+          <li>Toolstack expertise: Salesforce, Workato, Yooz, Hubspot, Avalara, Hightouch, Airbase</li>
+        </ul>
+        <ul class="lang-es" style="display:none;">
+          <li>Asesor certificado en NetSuite con más de 6 años de experiencia en ERP</li>
+          <li>Especialista post go-live brindando estabilidad y eficiencia</li>
+          <li>Experto en automatización de procesos e informes en Wallbox y Qualifyze</li>
+          <li>Personalización y búsquedas guardadas diseñadas para escalabilidad</li>
+          <li>Puente entre Finanzas y TI con enfoque en solución de problemas</li>
+          <li>Experiencia con herramientas: Salesforce, Workato, Yooz, Hubspot, Avalara, Hightouch, Airbase</li>
+        </ul>
+        <div style="text-align: center; margin-top: 3.5rem;">
+          <h2 class="lang-en" style="margin-top: 0;">Ready to simplify NetSuite?</h2>
+          <h2 class="lang-es" style="margin-top: 0; display:none;">¿Listo para simplificar NetSuite?</h2>
+          <p class="lang-en">Let’s bring clarity, automation, and financial insight to your platform.</p>
+          <p class="lang-es" style="display:none;">Llevemos claridad, automatización y conocimiento financiero a tu plataforma.</p>
+          <a href="#contact" onclick="showTab('contact')" class="lang-en" style="display: inline-block; background: #00bcd4; color: white; padding: 0.75rem 1.5rem; border-radius: 30px; font-weight: 600; text-decoration: none; margin-top: 1rem;">Get in Touch</a>
+          <a href="#contact" onclick="showTab('contact')" class="lang-es" style="display:none; background: #00bcd4; color: white; padding: 0.75rem 1.5rem; border-radius: 30px; font-weight: 600; text-decoration: none; margin-top: 1rem; display: inline-block;">Contáctame</a>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- What I Offer -->
   <section id="services">
-    <div class="section-title">What I Offer</div>
+    <div class="section-title lang-en">What I Offer</div>
+    <div class="section-title lang-es" style="display:none;">Qué Ofrezco</div>
     <div class="grid">
-      <div class="card"><strong>🛠️ Post Go-Live Advisory</strong><p>Stabilize your system and identify quick wins for immediate value.</p></div>
-      <div class="card"><strong>🔗 Finance-IT Alignment</strong><p>Bridge communication between finance and technical teams.</p></div>
-      <div class="card"><strong>⚙️ Automation & Workflows</strong><p>Streamline approval flows and reduce manual workload.</p></div>
-      <div class="card"><strong>🔌 Integrations</strong><p>Support with Salesforce, Hubspot, Hightouch, Avalara, Airbase, Workato, and Yooz.</p></div>
-      <div class="card"><strong>📈 Saved Searches & Dashboards</strong><p>Custom reports tailored to decision-making needs.</p></div>
-      <div class="card"><strong>📚 Training & Support</strong><p>Personalized training sessions to empower your finance and IT teams.</p></div>
+      <div class="card lang-en"><strong>🛠️ Post Go-Live Advisory</strong><p>Stabilize your system and identify quick wins for immediate value.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>🛠️ Asesoría Post Go-Live</strong><p>Estabiliza tu sistema e identifica mejoras rápidas para valor inmediato.</p></div>
+
+      <div class="card lang-en"><strong>🔗 Finance-IT Alignment</strong><p>Bridge communication between finance and technical teams.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>🔗 Alineación Finanzas-TI</strong><p>Puente de comunicación entre finanzas y equipos técnicos.</p></div>
+
+      <div class="card lang-en"><strong>⚙️ Automation & Workflows</strong><p>Streamline approval flows and reduce manual workload.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>⚙️ Automatización y Flujos</strong><p>Optimiza procesos de aprobación y reduce trabajo manual.</p></div>
+
+      <div class="card lang-en"><strong>🔌 Integrations</strong><p>Support with Salesforce, Hubspot, Hightouch, Avalara, Airbase, Workato, and Yooz.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>🔌 Integraciones</strong><p>Soporte con Salesforce, Hubspot, Hightouch, Avalara, Airbase, Workato y Yooz.</p></div>
+
+      <div class="card lang-en"><strong>📈 Saved Searches & Dashboards</strong><p>Custom reports tailored to decision-making needs.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>📈 Búsquedas Guardadas & Dashboards</strong><p>Informes personalizados adaptados a necesidades decisorias.</p></div>
+
+      <div class="card lang-en"><strong>📚 Training & Support</strong><p>Personalized training sessions to empower your finance and IT teams.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>📚 Capacitación & Soporte</strong><p>Sesiones personalizadas para capacitar a tus equipos de finanzas y TI.</p></div>
     </div>
   </section>
 
+  <!-- Why SuiteBridge -->
   <section id="why">
-    <div class="section-title">Why SuiteBridge</div>
-    <div class="grid">
-      <div class="card">“Amadeu delivered fast, practical solutions that improved our NetSuite operations.”<br><strong>— Bipanda Startup</strong></div>
-      <div class="card">“Reliable, knowledgeable, and the go-to NetSuite advisor for our finance team.”<br><strong>— FinTech Startup</strong></div>
-      <div class="card">“His expertise bridged gaps and accelerated our post go-live success.”<br><strong>— SaaS Startup</strong></div>
+    <div class="section-title lang-en">Why SuiteBridge</div>
+    <div class="section-title lang-es" style="display:none;">Por qué SuiteBridge</div>
+    <div class="why-container">
+      <div class="why-logo">
+        <img src="logo.png" alt="SuiteBridge Logo" />
+      </div>
+      <div class="why-reviews lang-en">
+        <div class="why-review-card">“Amadeu delivered fast, practical solutions that improved our NetSuite operations.”<br><strong>— Bipanda Startup</strong></div>
+        <div class="why-review-card">“Reliable, knowledgeable, and the go-to NetSuite advisor for our finance team.”<br><strong>— FinTech Startup</strong></div>
+        <div class="why-review-card">“His expertise bridged gaps and accelerated our post go-live success.”<br><strong>— SaaS Startup</strong></div>
+      </div>
+      <div class="why-reviews lang-es" style="display:none;">
+        <div class="why-review-card">“Amadeu entregó soluciones rápidas y prácticas que mejoraron nuestras operaciones en NetSuite.”<br><strong>— Bipanda Startup</strong></div>
+        <div class="why-review-card">“Confiable, experto y el asesor NetSuite para nuestro equipo financiero.”<br><strong>— FinTech Startup</strong></div>
+        <div class="why-review-card">“Su experiencia cerró brechas y aceleró nuestro éxito post go-live.”<br><strong>— SaaS Startup</strong></div>
+      </div>
     </div>
   </section>
 
+  <!-- Experience -->
   <section id="experience">
-    <div class="section-title">Experience</div>
+    <div class="section-title lang-en">Experience</div>
+    <div class="section-title lang-es" style="display:none;">Experiencia</div>
     <div class="grid">
-      <div class="card"><strong>ERP NetSuite Manager</strong><br>Qualifyze<br><p>Led post-go-live support, enhanced NetSuite performance and reporting.</p></div>
-      <div class="card"><strong>Finance Systems Lead</strong><br>Wallbox<br><p>Implemented automation, improved data accuracy, and integrated solutions.</p></div>
-      <div class="card"><strong>Finance Analyst</strong><br>Wallbox<br><p>Created financial models and supported end-to-end NetSuite process flows.</p></div>
-      <div class="card"><strong>Receivables Specialist</strong><br>Tech Data<br><p>Reconciled multinational vendor accounts and streamlined finance operations.</p></div>
+      <div class="card lang-en"><strong>ERP NetSuite Manager</strong><br>Qualifyze<br><p>Led post-go-live support, enhanced NetSuite performance and reporting.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>ERP NetSuite Manager</strong><br>Qualifyze<br><p>Gestionó soporte post go-live, mejoró desempeño e informes de NetSuite.</p></div>
+
+      <div class="card lang-en"><strong>Finance Systems Lead</strong><br>Wallbox<br><p>Implemented automation, improved data accuracy, and integrated solutions.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>Líder de Sistemas Financieros</strong><br>Wallbox<br><p>Implementó automatización, mejoró precisión de datos e integró soluciones.</p></div>
+
+      <div class="card lang-en"><strong>Finance Analyst</strong><br>Wallbox<br><p>Created financial models and supported end-to-end NetSuite process flows.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>Analista Financiero</strong><br>Wallbox<br><p>Creó modelos financieros y apoyó procesos NetSuite end-to-end.</p></div>
+
+      <div class="card lang-en"><strong>Receivables Specialist</strong><br>Tech Data<br><p>Reconciled multinational vendor accounts and streamlined finance operations.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>Especialista en Cuentas por Cobrar</strong><br>Tech Data<br><p>Conciliación de cuentas de proveedores multinacionales y optimización financiera.</p></div>
     </div>
   </section>
 
+  <!-- Expertise -->
   <section id="proof">
-    <div class="section-title">NetSuite Expertise</div>
+    <div class="section-title lang-en">NetSuite Expertise</div>
+    <div class="section-title lang-es" style="display:none;">Experticia NetSuite</div>
     <div class="grid">
-      <div class="card"><strong>📁 10+ Projects</strong><p>Post go-live stabilization, optimization & scaling.</p></div>
-      <div class="card"><strong>🧩 Automation Tools</strong><p>Workato, Yooz, Salesforce, and Celigo experience.</p></div>
-      <div class="card"><strong>🧱 Scalable Design</strong><p>Built upgrade-safe customizations and user-friendly reports.</p></div>
+      <div class="card lang-en"><strong>📁 10+ Projects</strong><p>Post go-live stabilization, optimization & scaling.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>📁 Más de 10 proyectos</strong><p>Estabilización, optimización y escalabilidad post go-live.</p></div>
+
+      <div class="card lang-en"><strong>🧩 Automation Tools</strong><p>Workato, Yooz, Salesforce, and Celigo experience.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>🧩 Herramientas de Automatización</strong><p>Experiencia con Workato, Yooz, Salesforce y Celigo.</p></div>
+
+      <div class="card lang-en"><strong>🧱 Scalable Design</strong><p>Built upgrade-safe customizations and user-friendly reports.</p></div>
+      <div class="card lang-es" style="display:none;"><strong>🧱 Diseño Escalable</strong><p>Construcción de personalizaciones seguras para actualizaciones e informes amigables.</p></div>
     </div>
   </section>
 
+  <!-- Contact -->
   <section id="contact">
-    <div class="section-title">Contact</div>
+    <div class="section-title lang-en">Contact</div>
+    <div class="section-title lang-es" style="display:none;">Contacto</div>
     <div class="grid">
       <div class="card" style="margin-bottom: 2rem;">
-        <p><strong>Email:</strong> <a href="mailto:amadeufabra1@gmail.com">amadeufabra1@gmail.com</a></p>
-        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/amadeufabra/" target="_blank">linkedin.com/in/amadeufabra</a></p>
+        <p class="lang-en"><strong>Email:</strong> <a href="mailto:amadeufabra1@gmail.com">amadeufabra1@gmail.com</a></p>
+        <p class="lang-es" style="display:none;"><strong>Email:</strong> <a href="mailto:amadeufabra1@gmail.com">amadeufabra1@gmail.com</a></p>
+        <p class="lang-en"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/amadeufabra/" target="_blank">linkedin.com/in/amadeufabra</a></p>
+        <p class="lang-es" style="display:none;"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/amadeufabra/" target="_blank">linkedin.com/in/amadeufabra</a></p>
       </div>
       <div class="card">
         <form id="contactForm" action="mailto:amadeufabra1@gmail.com" method="post" enctype="text/plain" onsubmit="alert('Thank you for your message!');">
-          <label for="name">Name</label>
+          <label for="name" class="lang-en">Name</label>
+          <label for="name" class="lang-es" style="display:none;">Nombre</label>
           <input type="text" id="name" name="Name" required />
-          <label for="email">Email</label>
+          
+          <label for="email" class="lang-en">Email</label>
+          <label for="email" class="lang-es" style="display:none;">Correo electrónico</label>
           <input type="email" id="email" name="Email" required />
-          <label for="message">Message</label>
+          
+          <label for="message" class="lang-en">Message</label>
+          <label for="message" class="lang-es" style="display:none;">Mensaje</label>
           <textarea id="message" name="Message" rows="5" required></textarea>
-          <button type="submit">Send Message</button>
+          
+          <button type="submit" class="lang-en">Send Message</button>
+          <button type="submit" class="lang-es" style="display:none;">Enviar Mensaje</button>
         </form>
       </div>
     </div>
@@ -296,7 +441,24 @@
       sections.forEach(sec => sec.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
     }
-    window.onload = () => showTab('about');
+    function setLanguage(lang) {
+      document.documentElement.lang = lang;
+      if(lang === 'en'){
+        document.querySelectorAll('.lang-en').forEach(el => el.style.display = '');
+        document.querySelectorAll('.lang-es').forEach(el => el.style.display = 'none');
+        document.getElementById('btn-en').classList.add('active');
+        document.getElementById('btn-es').classList.remove('active');
+      } else {
+        document.querySelectorAll('.lang-en').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.lang-es').forEach(el => el.style.display = '');
+        document.getElementById('btn-es').classList.add('active');
+        document.getElementById('btn-en').classList.remove('active');
+      }
+    }
+    window.onload = () => {
+      showTab('about');
+      setLanguage('en');
+    };
   </script>
 </body>
 </html>
